@@ -1,0 +1,1135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Premium Invoice Templates</title>
+  <style>
+    :root{
+      --bg:#eef3f5;
+      --panel:#ffffff;
+      --soft:#f6f8fa;
+      --text:#16262f;
+      --muted:#5b6976;
+      --line:#dfe6eb;
+      --primary:#1a7e6a;
+      --primary-strong:#0f584e;
+      --primary-soft:#edf9f5;
+      --danger:#d84848;
+      --shadow:0 22px 48px rgba(15,23,31,.09);
+    }
+
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body{
+      min-height:100vh;
+    }
+
+    .app{
+      max-width:1500px;
+      margin:0 auto;
+      padding:20px 18px 96px;
+      display:grid;
+      grid-template-columns:minmax(300px,420px) minmax(0,1fr);
+      gap:24px;
+    }
+
+    .panel{
+      position:sticky;
+      top:20px;
+      background:var(--panel);
+      border:1px solid var(--line);
+      border-radius:18px;
+      box-shadow:var(--shadow);
+      padding:20px 18px 18px;
+      height:fit-content;
+    }
+
+    .panel h1{
+      margin:0 0 18px;
+      font-size:1.9rem;
+      letter-spacing:-0.06em;
+      font-weight:800;
+    }
+
+    .section{
+      background:var(--soft);
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:14px 14px 12px;
+      margin-bottom:14px;
+    }
+
+    .section h2{
+      margin:0 0 12px;
+      font-size:0.76rem;
+      text-transform:uppercase;
+      letter-spacing:0.1em;
+      color:var(--muted);
+      font-weight:800;
+    }
+
+    .field{ margin-bottom:10px; }
+    .field-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:10px;
+    }
+
+    label{
+      display:block;
+      margin-bottom:6px;
+      color:var(--muted);
+      font-weight:700;
+      font-size:0.78rem;
+    }
+
+    input, textarea, select, button{
+      font:inherit;
+    }
+
+    input, textarea, select{
+      width:100%;
+      background:white;
+      color:var(--text);
+      border:1px solid var(--line);
+      border-radius:10px;
+      padding:10px 12px;
+      outline:none;
+      transition:border-color .2s ease, box-shadow .2s ease;
+    }
+
+    input:focus, textarea:focus, select:focus{
+      border-color:var(--primary);
+      box-shadow:0 0 0 3px rgba(26,126,106,.12);
+    }
+
+    textarea{
+      min-height:72px;
+      resize:vertical;
+    }
+
+    .items{
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+    }
+
+    .item{
+      background:white;
+      border:1px solid var(--line);
+      border-radius:12px;
+      padding:12px;
+    }
+
+    .item-head{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:8px;
+    }
+
+    .item-head strong{
+      letter-spacing:0.08em;
+      text-transform:uppercase;
+      color:var(--muted);
+      font-size:0.75rem;
+    }
+
+    .remove-item{
+      background:transparent;
+      border:1px solid #f0c6c6;
+      color:var(--danger);
+      border-radius:8px;
+      padding:6px 9px;
+      cursor:pointer;
+      font-weight:700;
+    }
+
+    .item-grid{
+      display:grid;
+      grid-template-columns:2.5fr 1fr 1.2fr 0.9fr;
+      gap:10px;
+    }
+
+    .add-row{
+      margin-top:12px;
+      width:100%;
+      border:1px dashed var(--primary);
+      background:var(--primary-soft);
+      color:var(--primary-strong);
+      border-radius:10px;
+      padding:11px 12px;
+      font-weight:800;
+      cursor:pointer;
+    }
+
+    .preview-shell{
+      background:linear-gradient(180deg,#f5f9fa,#edf2f5);
+      border:1px solid var(--line);
+      border-radius:20px;
+      padding:18px;
+      box-shadow:var(--shadow);
+      min-height:760px;
+    }
+
+    .invoice-wrap{
+      background:white;
+      border:1px solid var(--line);
+      border-radius:18px;
+      overflow:hidden;
+      min-height:100%;
+    }
+
+    .invoice-inner{
+      padding:30px 34px 22px;
+    }
+
+    .invoice-header{
+      display:flex;
+      justify-content:space-between;
+      gap:20px;
+      align-items:flex-start;
+      margin-bottom:18px;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      width:170px;
+      height:76px;
+      border-radius:12px;
+      border:1px solid var(--line);
+      background:linear-gradient(135deg,#f9fbfb,#edf6f4);
+      font-weight:800;
+      color:var(--primary-strong);
+      letter-spacing:0.12em;
+      text-transform:uppercase;
+      overflow:hidden;
+    }
+
+    .brand img{
+      width:100%;
+      height:100%;
+      object-fit:contain;
+      display:block;
+    }
+
+    .invoice-title{
+      margin:0;
+      font-size:clamp(1.9rem,2.5vw,3rem);
+      letter-spacing:-0.06em;
+      font-weight:900;
+    }
+
+    .meta{
+      text-align:right;
+      color:var(--muted);
+      line-height:1.8;
+      font-size:0.94rem;
+    }
+
+    .meta b{
+      color:var(--text);
+    }
+
+    .party-grid{
+      display:grid;
+      grid-template-columns:repeat(2, minmax(0,1fr));
+      gap:18px;
+      margin:20px 0 16px;
+    }
+
+    .party-box{
+      background:#fafbfd;
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:14px 14px 12px;
+    }
+
+    .label{
+      display:block;
+      font-weight:800;
+      letter-spacing:0.09em;
+      text-transform:uppercase;
+      font-size:0.72rem;
+      color:var(--muted);
+      margin-bottom:8px;
+    }
+
+    .address{
+      white-space:pre-line;
+      line-height:1.7;
+      font-size:0.96rem;
+      color:var(--text);
+    }
+
+    table{
+      width:100%;
+      border-collapse:collapse;
+      border:1px solid var(--line);
+      margin-top:8px;
+      border-radius:12px;
+      overflow:hidden;
+    }
+
+    thead th{
+      background:var(--primary);
+      color:white;
+      padding:12px 10px;
+      text-align:left;
+      font-size:0.76rem;
+      letter-spacing:0.08em;
+      text-transform:uppercase;
+    }
+
+    tbody td{
+      padding:12px 10px;
+      border-top:1px solid var(--line);
+      font-size:0.94rem;
+      vertical-align:top;
+    }
+
+    tbody tr:nth-child(even){
+      background:#fafbfd;
+    }
+
+    .align-right{
+      text-align:right;
+      white-space:nowrap;
+    }
+
+    .totals{
+      margin-left:auto;
+      margin-top:18px;
+      width:min(360px,100%);
+      border:1px solid var(--line);
+      border-radius:12px;
+      overflow:hidden;
+      background:#fafbfd;
+    }
+
+    .totals-row{
+      display:flex;
+      justify-content:space-between;
+      gap:18px;
+      padding:10px 14px;
+      border-bottom:1px solid var(--line);
+      font-size:0.96rem;
+    }
+
+    .totals-row:last-child{
+      border-bottom:none;
+      background:var(--primary);
+      color:white;
+      font-weight:900;
+      font-size:1.06rem;
+    }
+
+    .notes{
+      margin-top:22px;
+      padding-top:14px;
+      border-top:1px solid var(--line);
+      color:var(--muted);
+      line-height:1.7;
+      white-space:pre-line;
+      font-size:0.92rem;
+    }
+
+    .toolbar{
+      position:fixed;
+      left:0;
+      right:0;
+      bottom:0;
+      background:rgba(255,255,255,0.94);
+      backdrop-filter:blur(8px);
+      border-top:1px solid var(--line);
+      padding:12px 16px calc(12px + env(safe-area-inset-bottom,0px));
+      display:flex;
+      justify-content:center;
+      gap:12px;
+      z-index:20;
+    }
+
+    .toolbar button{
+      min-width:180px;
+      border:none;
+      border-radius:12px;
+      padding:12px 18px;
+      font-weight:800;
+      cursor:pointer;
+    }
+
+    .btn-secondary{
+      background:#edf2f4;
+      color:var(--text);
+      border:1px solid var(--line);
+    }
+
+    .btn-primary{
+      background:var(--primary);
+      color:white;
+      box-shadow:0 10px 20px rgba(26,126,106,.18);
+    }
+
+    .template-classic{
+      --primary:#1d7d67;
+      --primary-strong:#0d4a40;
+      --line:#dfe8e5;
+      --soft:#f7faf9;
+      background:white;
+    }
+
+    .template-classic thead th{
+      background:#1d7d67;
+    }
+
+    .template-modern{
+      --primary:#2c5cff;
+      --primary-strong:#1838b5;
+      --line:#dfe6ff;
+      --soft:#f4f7ff;
+      background:linear-gradient(180deg,#fcfdff,#f3f7ff);
+    }
+
+    .template-modern thead th{
+      background:linear-gradient(135deg,#2c5cff,#1838b5);
+    }
+
+    .template-modern .brand{
+      background:linear-gradient(135deg,#edf3ff,#e2ebff);
+    }
+
+    .template-minimal{
+      --primary:#1b1e24;
+      --primary-strong:#0D1117;
+      --line:#e7e7e7;
+      --soft:#f8f8f8;
+      background:white;
+    }
+
+    .template-minimal thead th{
+      background:#171b20;
+    }
+
+    .template-bold{
+      --primary:#ff6b35;
+      --primary-strong:#ca4d1a;
+      --line:#f5dfd1;
+      --soft:#fff8f3;
+      background:#fffaf5;
+    }
+
+    .template-bold thead th{
+      background:#ff6b35;
+    }
+
+    .template-luxury{
+      --primary:#a07a3c;
+      --primary-strong:#704f22;
+      --line:#e7d7b5;
+      --soft:#faf4eb;
+      background:linear-gradient(180deg,#fffdfb,#f8f3eb);
+    }
+
+    .template-luxury thead th{
+      background:linear-gradient(135deg,#a07a3c,#7e5a2b);
+    }
+
+    .template-corporate{
+      --primary:#0f5f84;
+      --primary-strong:#0a3d58;
+      --line:#d9e7f2;
+      --soft:#f5fafc;
+      background:#fbfeff;
+    }
+
+    .template-corporate thead th{
+      background:#0f5f84;
+    }
+
+    .template-corporate .invoice-header{
+      border-bottom:2px solid var(--primary);
+      padding-bottom:12px;
+    }
+
+    .template-dark{
+      --primary:#1d2633;
+      --primary-strong:#0e141c;
+      --line:#2e3b4d;
+      --soft:#111b25;
+      background:#0d141b;
+      color:#edf5fb;
+    }
+
+    .template-dark .invoice-inner,
+    .template-dark .party-box,
+    .template-dark .totals,
+    .template-dark .brand{
+      background:#121d28;
+      color:#edf6ff;
+      border-color:#2e4052;
+    }
+
+    .template-dark .label,
+    .template-dark .meta,
+    .template-dark .notes,
+    .template-dark .address{
+      color:#d8e6f1;
+    }
+
+    .template-dark tbody tr:nth-child(even){
+      background:#121d29;
+    }
+
+    .template-dark thead th{
+      background:#1c2d3d;
+      color:#f2f6fb;
+    }
+
+    .template-dark .brand{
+      color:#edf9ff;
+    }
+
+    .template-ocean{
+      --primary:#1e7fa7;
+      --primary-strong:#124f6d;
+      --line:#d5ebf5;
+      --soft:#f4fbff;
+      background:linear-gradient(180deg,#f5fcff,#edf7fb);
+    }
+
+    .template-ocean thead th{
+      background:linear-gradient(135deg,#1e7fa7,#135d78);
+    }
+
+    .template-sunset{
+      --primary:#d8644d;
+      --primary-strong:#a64636;
+      --line:#f6d5cd;
+      --soft:#fff6f4;
+      background:linear-gradient(180deg,#fff9f7,#fff1ef);
+    }
+
+    .template-sunset thead th{
+      background:linear-gradient(135deg,#d8644d,#bb4835);
+    }
+
+    .template-editorial{
+      --primary:#5d4f7d;
+      --primary-strong:#3b2e55;
+      --line:#e3dfe9;
+      --soft:#f7f4fa;
+      background:linear-gradient(180deg,#fdfcff,#f5f2fb);
+    }
+
+    .template-editorial thead th{
+      background:linear-gradient(135deg,#5d4f7d,#41345c);
+    }
+
+    .template-editorial .invoice-title{
+      font-family: Georgia, serif;
+      letter-spacing:0.04em;
+    }
+
+    @media (max-width:1000px){
+      .app{
+        grid-template-columns:1fr;
+      }
+      .panel{
+        position:static;
+      }
+    }
+
+    @media (max-width:700px){
+      .field-grid, .item-grid, .party-grid{
+        grid-template-columns:1fr;
+      }
+      .invoice-header{
+        flex-direction:column;
+        align-items:flex-start;
+      }
+      .meta{
+        text-align:left;
+      }
+      .preview-shell{
+        padding:12px;
+      }
+      .invoice-inner{
+        padding:18px 16px 16px;
+      }
+      .toolbar{
+        justify-content:stretch;
+      }
+      .toolbar button{
+        flex:1;
+        min-width:unset;
+      }
+    }
+
+    @media print{
+      body{
+        background:white;
+      }
+      .panel, .toolbar{
+        display:none !important;
+      }
+      .app{
+        padding:0;
+        max-width:none;
+      }
+      .preview-shell{
+        padding:0;
+        background:white;
+        border:none;
+        box-shadow:none;
+      }
+      .invoice-wrap{
+        border:none;
+        box-shadow:none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside class="panel">
+      <h1>Premium Invoice</h1>
+
+      <div class="section">
+        <h2>Style</h2>
+        <div class="field">
+          <label for="templateSelect">Template</label>
+          <select id="templateSelect">
+            <option value="classic">Classic</option>
+            <option value="modern">Modern</option>
+            <option value="minimal">Minimal</option>
+            <option value="bold">Bold</option>
+            <option value="luxury">Luxury</option>
+            <option value="corporate">Corporate</option>
+            <option value="dark">Dark</option>
+            <option value="ocean">Ocean</option>
+            <option value="sunset">Sunset</option>
+            <option value="editorial">Editorial</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>Company</h2>
+        <div class="field">
+          <label for="companyName">Business name</label>
+          <input id="companyName" type="text" placeholder="Your company" />
+        </div>
+
+        <div class="field">
+          <label for="companyAddress">Address</label>
+          <textarea id="companyAddress" placeholder="Street, city, country"></textarea>
+        </div>
+
+        <div class="field-grid">
+          <div class="field">
+            <label for="companyEmail">Email</label>
+            <input id="companyEmail" type="email" placeholder="hello@example.com" />
+          </div>
+          <div class="field">
+            <label for="companyTax">Tax ID</label>
+            <input id="companyTax" type="text" placeholder="VAT / NIPT" />
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>Client</h2>
+        <div class="field">
+          <label for="clientName">Client name</label>
+          <input id="clientName" type="text" placeholder="Client name" />
+        </div>
+
+        <div class="field">
+          <label for="clientAddress">Address</label>
+          <textarea id="clientAddress" placeholder="Street, city, country"></textarea>
+        </div>
+
+        <div class="field">
+          <label for="clientEmail">Email</label>
+          <input id="clientEmail" type="email" placeholder="client@example.com" />
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>Invoice</h2>
+        <div class="field-grid">
+          <div class="field">
+            <label for="invoiceNo">Invoice #</label>
+            <input id="invoiceNo" type="text" value="INV-001" />
+          </div>
+          <div class="field">
+            <label for="currency">Currency</label>
+            <select id="currency">
+              <option>EUR</option>
+              <option>USD</option>
+              <option>GBP</option>
+              <option>ALL</option>
+              <option>CHF</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field-grid">
+          <div class="field">
+            <label for="issueDate">Issue date</label>
+            <input id="issueDate" type="date" />
+          </div>
+          <div class="field">
+            <label for="dueDate">Due date</label>
+            <input id="dueDate" type="date" />
+          </div>
+        </div>
+
+        <div class="field-grid">
+          <div class="field">
+            <label for="discount">Discount (%)</label>
+            <input id="discount" type="number" min="0" step="0.1" value="0" />
+          </div>
+          <div class="field">
+            <label for="logo">Logo</label>
+            <input id="logo" type="file" accept="image/*" />
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="notes">Notes</label>
+          <textarea id="notes" placeholder="Payment terms, bank details, etc."></textarea>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>Items</h2>
+        <div id="items" class="items"></div>
+        <button type="button" class="add-row" id="addItem">+ Add item</button>
+      </div>
+    </aside>
+
+    <main class="preview-shell">
+      <div id="invoice" class="invoice-wrap template-classic"></div>
+    </main>
+  </div>
+
+  <div class="toolbar">
+    <button type="button" class="btn-secondary" id="newInvoice">New invoice</button>
+    <button type="button" class="btn-primary" id="printInvoice">Print / Save PDF</button>
+  </div>
+
+  <script>
+    const state = {
+      template: 'classic',
+      companyName: '',
+      companyAddress: '',
+      companyEmail: '',
+      companyTax: '',
+      clientName: '',
+      clientAddress: '',
+      clientEmail: '',
+      invoiceNo: 'INV-001',
+      issueDate: '',
+      dueDate: '',
+      currency: 'EUR',
+      discount: 0,
+      notes: '',
+      logo: '',
+      items: [
+        { description: 'Website redesign', qty: 1, price: 850, vat: 20 },
+        { description: 'SEO setup package', qty: 2, price: 110, vat: 20 }
+      ]
+    };
+
+    const els = {
+      templateSelect: document.getElementById('templateSelect'),
+      companyName: document.getElementById('companyName'),
+      companyAddress: document.getElementById('companyAddress'),
+      companyEmail: document.getElementById('companyEmail'),
+      companyTax: document.getElementById('companyTax'),
+      clientName: document.getElementById('clientName'),
+      clientAddress: document.getElementById('clientAddress'),
+      clientEmail: document.getElementById('clientEmail'),
+      invoiceNo: document.getElementById('invoiceNo'),
+      currency: document.getElementById('currency'),
+      issueDate: document.getElementById('issueDate'),
+      dueDate: document.getElementById('dueDate'),
+      discount: document.getElementById('discount'),
+      notes: document.getElementById('notes'),
+      items: document.getElementById('items'),
+      invoice: document.getElementById('invoice'),
+      logo: document.getElementById('logo'),
+      addItem: document.getElementById('addItem'),
+      printInvoice: document.getElementById('printInvoice'),
+      newInvoice: document.getElementById('newInvoice')
+    };
+
+    function todayString() {
+      const d = new Date();
+      const pad = n => String(n).padStart(2, '0');
+      return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+    }
+
+    function addDays(dateString, days) {
+      const date = new Date(dateString + 'T00:00:00');
+      date.setDate(date.getDate() + days);
+      const pad = n => String(n).padStart(2, '0');
+      return `${date.getFullYear()}-${pad(date.getMonth()+1)}-${pad(date.getDate())}`;
+    }
+
+    function formatDate(dateString) {
+      if (!dateString) return '';
+      const d = new Date(dateString + 'T00:00:00');
+      if (Number.isNaN(d.getTime())) return '';
+      return new Intl.DateTimeFormat('en-GB', {
+        day: '2-digit', month: '2-digit', year: 'numeric'
+      }).format(d);
+    }
+
+    function money(value, currency) {
+      const v = Number(value) || 0;
+      try {
+        return new Intl.NumberFormat('en-US', {
+          style: 'currency',
+          currency: currency || 'EUR'
+        }).format(v);
+      } catch {
+        return `${v.toFixed(2)} ${currency || 'EUR'}`;
+      }
+    }
+
+    function escapeHtml(str) {
+      return String(str ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    function loadForm() {
+      els.templateSelect.value = state.template;
+      els.companyName.value = state.companyName;
+      els.companyAddress.value = state.companyAddress;
+      els.companyEmail.value = state.companyEmail;
+      els.companyTax.value = state.companyTax;
+      els.clientName.value = state.clientName;
+      els.clientAddress.value = state.clientAddress;
+      els.clientEmail.value = state.clientEmail;
+      els.invoiceNo.value = state.invoiceNo;
+      els.currency.value = state.currency;
+      els.issueDate.value = state.issueDate;
+      els.dueDate.value = state.dueDate;
+      els.discount.value = state.discount;
+      els.notes.value = state.notes;
+      renderItems();
+    }
+
+    function collectForm() {
+      state.template = els.templateSelect.value;
+      state.companyName = els.companyName.value;
+      state.companyAddress = els.companyAddress.value;
+      state.companyEmail = els.companyEmail.value;
+      state.companyTax = els.companyTax.value;
+      state.clientName = els.clientName.value;
+      state.clientAddress = els.clientAddress.value;
+      state.clientEmail = els.clientEmail.value;
+      state.invoiceNo = els.invoiceNo.value;
+      state.currency = els.currency.value;
+      state.issueDate = els.issueDate.value;
+      state.dueDate = els.dueDate.value;
+      state.discount = Number(els.discount.value || 0);
+      state.notes = els.notes.value;
+    }
+
+    function renderItems() {
+      els.items.innerHTML = '';
+      state.items.forEach((item, index) => {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'item';
+
+        wrapper.innerHTML = `
+          <div class="item-head">
+            <strong>Item ${index + 1}</strong>
+            <button class="remove-item" type="button">Remove</button>
+          </div>
+          <div class="item-grid">
+            <div class="field">
+              <label>Description</label>
+              <input type="text" class="item-desc" value="${escapeHtml(item.description || '')}" />
+            </div>
+            <div class="field">
+              <label>Qty</label>
+              <input type="number" class="item-qty" min="0" step="0.01" value="${Number(item.qty || 0)}" />
+            </div>
+            <div class="field">
+              <label>Price</label>
+              <input type="number" class="item-price" min="0" step="0.01" value="${Number(item.price || 0)}" />
+            </div>
+            <div class="field">
+              <label>VAT %</label>
+              <input type="number" class="item-vat" min="0" step="1" value="${Number(item.vat || 0)}" />
+            </div>
+          </div>
+        `;
+
+        const removeBtn = wrapper.querySelector('.remove-item');
+        removeBtn.addEventListener('click', () => {
+          if (state.items.length > 1) {
+            state.items.splice(index, 1);
+            renderItems();
+            renderInvoice();
+          }
+        });
+
+        const desc = wrapper.querySelector('.item-desc');
+        const qty = wrapper.querySelector('.item-qty');
+        const price = wrapper.querySelector('.item-price');
+        const vat = wrapper.querySelector('.item-vat');
+
+        desc.addEventListener('input', (e) => {
+          state.items[index].description = e.target.value;
+          renderInvoice();
+        });
+
+        qty.addEventListener('input', (e) => {
+          state.items[index].qty = Number(e.target.value || 0);
+          renderInvoice();
+        });
+
+        price.addEventListener('input', (e) => {
+          state.items[index].price = Number(e.target.value || 0);
+          renderInvoice();
+        });
+
+        vat.addEventListener('input', (e) => {
+          state.items[index].vat = Number(e.target.value || 0);
+          renderInvoice();
+        });
+
+        els.items.appendChild(wrapper);
+      });
+    }
+
+    function renderInvoice() {
+      collectForm();
+      const invoice = document.getElementById('invoice');
+      invoice.className = `invoice-wrap template-${state.template}`;
+
+      const subtotal = state.items.reduce((sum, item) => {
+        return sum + (Number(item.qty || 0) * Number(item.price || 0));
+      }, 0);
+
+      const discountAmount = subtotal * ((Number(state.discount) || 0) / 100);
+      const net = subtotal - discountAmount;
+
+      const taxesByRate = {};
+      state.items.forEach(item => {
+        const lineTotal = Number(item.qty || 0) * Number(item.price || 0);
+        const rate = Number(item.vat || 0);
+        if (!taxesByRate[rate]) taxesByRate[rate] = 0;
+        taxesByRate[rate] += lineTotal;
+      });
+
+      let taxTotal = 0;
+      const taxRows = Object.entries(taxesByRate)
+        .sort((a, b) => Number(a[0]) - Number(b[0]))
+        .map(([rate, taxable]) => {
+          const vat = taxable * (Number(rate) / 100);
+          taxTotal += vat;
+          return `<div class="totals-row"><span>VAT ${rate}%</span><span>${money(vat, state.currency)}</span></div>`;
+        }).join('');
+
+      const total = net + taxTotal;
+
+      const rows = state.items.map(item => {
+        const lineTotal = (Number(item.qty || 0) * Number(item.price || 0));
+        const vatAmount = lineTotal * ((Number(item.vat || 0)) / 100);
+        return `
+          <tr>
+            <td>${escapeHtml(item.description || 'Untitled item')}</td>
+            <td class="align-right">${Number(item.qty || 0)}</td>
+            <td class="align-right">${money(item.price || 0, state.currency)}</td>
+            <td class="align-right">${Number(item.vat || 0)}%</td>
+            <td class="align-right">${money(lineTotal, state.currency)}</td>
+            <td class="align-right">${money(vatAmount, state.currency)}</td>
+          </tr>
+        `;
+      }).join('');
+
+      const logoHtml = state.logo
+        ? `<div class="brand"><img src="${state.logo}" alt="Logo" /></div>`
+        : `<div class="brand">Logo</div>`;
+
+      invoice.innerHTML = `
+        <div class="invoice-inner">
+          <div class="invoice-header">
+            <div>${logoHtml}</div>
+            <div class="meta">
+              <div><b>Invoice #:</b> ${escapeHtml(state.invoiceNo || 'INV-0001')}</div>
+              <div><b>Date:</b> ${formatDate(state.issueDate)}</div>
+              <div><b>Due:</b> ${formatDate(state.dueDate)}</div>
+            </div>
+          </div>
+
+          <h1 class="invoice-title">Invoice</h1>
+
+          <div class="party-grid">
+            <div class="party-box">
+              <span class="label">From</span>
+              <div class="address">
+                <strong>${escapeHtml(state.companyName || 'Your business')}</strong>
+                ${escapeHtml(state.companyAddress || 'Company address')}
+                ${state.companyEmail ? `\n${escapeHtml(state.companyEmail)}` : ''}
+                ${state.companyTax ? `\n${escapeHtml(state.companyTax)}` : ''}
+              </div>
+            </div>
+
+            <div class="party-box">
+              <span class="label">To</span>
+              <div class="address">
+                <strong>${escapeHtml(state.clientName || 'Client name')}</strong>
+                ${escapeHtml(state.clientAddress || 'Client address')}
+                ${state.clientEmail ? `\n${escapeHtml(state.clientEmail)}` : ''}
+              </div>
+            </div>
+          </div>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Description</th>
+                <th class="align-right">Qty</th>
+                <th class="align-right">Price</th>
+                <th class="align-right">VAT</th>
+                <th class="align-right">Line total</th>
+                <th class="align-right">VAT Amt</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${rows || `<tr><td colspan="6">No items yet.</td></tr>`}
+            </tbody>
+          </table>
+
+          <div class="totals">
+            <div class="totals-row">
+              <span>Subtotal</span>
+              <span>${money(subtotal, state.currency)}</span>
+            </div>
+
+            ${state.discount > 0 ? `
+              <div class="totals-row">
+                <span>Discount (${Number(state.discount)}%)</span>
+                <span>- ${money(discountAmount, state.currency)}</span>
+              </div>
+            ` : ''}
+
+            ${taxRows}
+
+            <div class="totals-row">
+              <span>Total</span>
+              <span>${money(total, state.currency)}</span>
+            </div>
+          </div>
+
+          ${state.notes ? `
+            <div class="notes">${escapeHtml(state.notes)}</div>
+          ` : ''}
+        </div>
+      `;
+    }
+
+    function resetInvoice() {
+      const today = todayString();
+      state.template = 'classic';
+      state.companyName = 'Example Studio';
+      state.companyAddress = '42 Market Street\nLondon, UK';
+      state.companyEmail = 'hello@example.com';
+      state.companyTax = 'VAT 123456789';
+      state.clientName = 'Client Name';
+      state.clientAddress = '22 Business Avenue\nBerlin, Germany';
+      state.clientEmail = 'client@example.com';
+      state.invoiceNo = 'INV-001';
+      state.issueDate = today;
+      state.dueDate = addDays(today, 14);
+      state.currency = 'EUR';
+      state.discount = 0;
+      state.notes = 'Thank you for your business.\nBank: Example Bank\nIBAN: XX1234567890';
+      state.logo = '';
+      state.items = [
+        { description: 'Website redesign', qty: 1, price: 850, vat: 20 },
+        { description: 'SEO setup package', qty: 2, price: 110, vat: 20 }
+      ];
+      loadForm();
+      renderInvoice();
+    }
+
+    function bindEvents() {
+      els.templateSelect.addEventListener('change', renderInvoice);
+
+      ['companyName','companyAddress','companyEmail','companyTax','clientName','clientAddress','clientEmail','invoiceNo','currency','issueDate','dueDate','discount','notes']
+        .forEach(id => {
+          document.getElementById(id).addEventListener('input', renderInvoice);
+        });
+
+      els.addItem.addEventListener('click', () => {
+        state.items.push({ description: '', qty: 1, price: 0, vat: 20 });
+        renderItems();
+        renderInvoice();
+      });
+
+      els.printInvoice.addEventListener('click', () => {
+        window.print();
+      });
+
+      els.newInvoice.addEventListener('click', () => {
+        resetInvoice();
+      });
+
+      els.logo.addEventListener('change', (event) => {
+        const file = event.target.files && event.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          state.logo = e.target.result;
+          renderInvoice();
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    function init() {
+      const today = todayString();
+      state.companyName = 'Example Studio';
+      state.companyAddress = '42 Market Street\nLondon, UK';
+      state.companyEmail = 'hello@example.com';
+      state.companyTax = 'VAT 123456789';
+      state.clientName = 'Client Name';
+      state.clientAddress = '22 Business Avenue\nBerlin, Germany';
+      state.clientEmail = 'client@example.com';
+      state.invoiceNo = 'INV-001';
+      state.issueDate = today;
+      state.dueDate = addDays(today, 14);
+      state.currency = 'EUR';
+      state.discount = 0;
+      state.notes = 'Thank you for your business.\nBank: Example Bank\nIBAN: XX1234567890';
+      state.template = 'classic';
+      loadForm();
+      bindEvents();
+      renderInvoice();
+    }
+
+    init();
+  </script>
+</body>
+</html>
